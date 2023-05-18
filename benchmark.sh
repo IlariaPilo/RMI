@@ -22,17 +22,17 @@ else
 fi
 
 # Check if datasets are there
-if [ ! -e $data_dir+"/wiki_ts_200M_uint64" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/SVN8PI | zstd -d > $data_dir+"/wiki_ts_200M_uint64"
+if [ ! -e "${data_dir}/wiki_ts_200M_uint64" ]; then
+    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/SVN8PI | zstd -d > "${data_dir}/wiki_ts_200M_uint64"
 fi
-if [ ! -e $data_dir+"/osm_cellids_200M_uint64" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/8FX9BV | zstd -d > $data_dir+"/osm_cellids_200M_uint64"
+if [ ! -e "${data_dir}/osm_cellids_200M_uint64" ]; then
+    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/8FX9BV | zstd -d > "${data_dir}/osm_cellids_200M_uint64"
 fi
-if [ ! -e $data_dir+"/fb_200M_uint64" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/EATHF7 | zstd -d > $data_dir+"/fb_200M_uint64"
+if [ ! -e "${data_dir}/fb_200M_uint64" ]; then
+    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/EATHF7 | zstd -d > "${data_dir}/fb_200M_uint64"
 fi
-if [ ! -e $data_dir+"/books_200M_uint32" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/5YTV8K | zstd -d > $data_dir+"/books_200M_uint32"
+if [ ! -e "${data_dir}/books_200M_uint32" ]; then
+    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/5YTV8K | zstd -d > "${data_dir}/books_200M_uint32"
 fi
 
 # compile
@@ -48,7 +48,7 @@ touch $file_name
 echo "wiki_ts_200M_uint64" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./rmi --threads $thread_number --optimize optimizer.json $data_dir+"/wiki_ts_200M_uint64" >> $file_name
+./rmi --threads $thread_number --optimize optimizer.json $"${data_dir}/wiki_ts_200M_uint64" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
@@ -58,7 +58,7 @@ echo "Execution time: $execution_time ns" >> $file_name
 echo "osm_cellids_200M_uint64" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./rmi --threads $thread_number --optimize optimizer.json $data_dir+"/osm_cellids_200M_uint64" >> $file_name
+./rmi --threads $thread_number --optimize optimizer.json "${data_dir}/osm_cellids_200M_uint64" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
@@ -68,7 +68,7 @@ echo "Execution time: $execution_time ns" >> $file_name
 echo "fb_200M_uint64" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./rmi --threads $thread_number --optimize optimizer.json $data_dir+"/fb_200M_uint64" >> $file_name
+./rmi --threads $thread_number --optimize optimizer.json "${data_dir}/fb_200M_uint64" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
@@ -78,12 +78,14 @@ echo "Execution time: $execution_time ns" >> $file_name
 echo "books_200M_uint32" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./rmi --threads $thread_number --optimize optimizer.json $data_dir+"/books_200M_uint32" >> $file_name
+./rmi --threads $thread_number --optimize optimizer.json "${data_dir}/books_200M_uint32" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
 echo "Execution time: $execution_time ns" >> $file_name
+
+rm optimizer.json
 
 
 
