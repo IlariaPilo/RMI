@@ -156,7 +156,8 @@ pub struct RMIStatistics {
     pub branching_factor: u64,
     pub average_log2_error: f64,
     pub max_log2_error: f64,
-    pub size: u64
+    pub size: u64,
+    pub build_time: u128
 }
 
 impl RMIStatistics {
@@ -166,7 +167,9 @@ impl RMIStatistics {
             max_log2_error: rmi.model_max_log2_error,
             size: codegen::rmi_size(&rmi),
             models: rmi.models.clone(),
-            branching_factor: rmi.branching_factor
+            branching_factor: rmi.branching_factor,
+            // add training time (IN SECONDS)
+            build_time: rmi.build_time
         };
     }
 
@@ -191,15 +194,17 @@ impl RMIStatistics {
     }
 
     pub fn display_table(itms: &[RMIStatistics]) {
-        let mut table = Table::new("{:<} {:>} {:>} {:>} {:>}");
+    	// add training time
+        let mut table = Table::new("{:<} {:>} {:>} {:>} {:>} {:>}");
         table.add_row(row!("Models", "Branch", "   AvgLg2",
-                           "   MaxLg2", "   Size (b)"));
+                           "   MaxLg2", "   Size (B)", "  Build time (ns)"));
         for itm in itms {
             table.add_row(row!(itm.models.clone(),
                                format!("{:10}", itm.branching_factor),
                                format!("     {:2.5}", itm.average_log2_error),
                                format!("     {:2.5}", itm.max_log2_error),
-                               format!("     {}", itm.size)));
+                               format!("     {}", itm.size),
+                               format!("     {}", itm.build_time)));
         }
 
         print!("{}", table);
