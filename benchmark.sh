@@ -43,7 +43,7 @@ prefix=$(date +"%Y-%m-%d-%H-%M-%S")
 file_name="${data_dir}/${prefix}_optimizer.out"
 touch $file_name
 
-echo "wiki_ts_200M_uint64" >> $file_name
+echo "-------- wiki_ts_200M_uint64 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
 ./target/release/rmi --threads $thread_number --optimize optimizer.json $"${data_dir}/wiki_ts_200M_uint64" >> $file_name
@@ -51,9 +51,9 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns\n" >> $file_name
+echo -e "Execution time: $execution_time ns\n" >> $file_name
 
-echo "osm_cellids_200M_uint64" >> $file_name
+echo "-------- osm_cellids_200M_uint64 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
 ./target/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/osm_cellids_200M_uint64" >> $file_name
@@ -61,9 +61,9 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns\n" >> $file_name
+echo -e "Execution time: $execution_time ns\n" >> $file_name
 
-echo "fb_200M_uint64" >> $file_name
+echo "-------- fb_200M_uint64 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
 ./target/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/fb_200M_uint64" >> $file_name
@@ -71,9 +71,9 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns\n" >> $file_name
+echo -e "Execution time: $execution_time ns\n" >> $file_name
 
-echo "books_200M_uint32" >> $file_name
+echo "-------- books_200M_uint32 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
 ./target/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/books_200M_uint32" >> $file_name
@@ -81,7 +81,7 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns\n" >> $file_name
+echo -e "Execution time: $execution_time ns\n" >> $file_name
 
 rm optimizer.json
 
