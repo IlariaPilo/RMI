@@ -47,7 +47,7 @@ fn build_models_from<T: TrainingKey>(data: &RMITrainingData<T>,
                 Subset range: {} to {}",
                 model_pred, start_idx + num_models, start_idx, end_idx);
         let target = usize::min(first_model_idx + num_models - 1, model_pred);
-        assert!(target >= last_target);
+        assert!(target >= last_target, "target {}, last_target {}", target, last_target);
         
         if target > last_target {
             // this is the first datapoint for the next leaf model.
