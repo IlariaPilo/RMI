@@ -1,8 +1,37 @@
 #!/bin/bash
 set -e  # Stop if there is a failure
 
+#------------- DOWNLOAD UTILITY -------------#
+function download_dataset() {
+    FILE=$1;
+    data_dir=$2;
+    URL=$3;
+    CHECKSUM=$4;
+   
+    # Check if file already exists
+    if [ -f "${data_dir}/${FILE}" ]; then
+        # Exists -> check the checksum
+        sha_result=$(sha256sum "${data_dir}/${FILE}" | awk '{ print $1 }')
+        if [ "${sha_result}" != "${CHECKSUM}" ]; then
+           curl -L $URL | zstd -d > "${data_dir}/${FILE}"
+        fi
+    else
+        # Download
+        curl -L $URL | zstd -d > "${data_dir}/${FILE}"
+    fi
+
+    # Validate (at this point the file should really exist)
+    sha_result=$(sha256sum "${data_dir}/${FILE}" | awk '{ print $1 }')
+    if [ "${sha_result}" != "${CHECKSUM}" ]; then
+        echo "error checksum does not match: run download again"
+        exit -1
+    else
+        echo ${FILE} "checksum ok"
+    fi
+}
+
 # Check if the user has provided an argument
-if [ $# -eq 0 ]; then
+if [ $# -e   CHECKSUM=$2;q 0 ]; then
     echo -e "\n\033[1;35m\tbash benchmark.sh <data_direcotry> [<thread_number>]\033[0m"
     echo -e "Runs the optimization benchmark. Results are saved in "{time}_optimizer.out" file."
     echo -e "Use <thread_number> to specify the number of threads to be used. If not specified, it will be set to the number of available CPUs.\n"
@@ -21,19 +50,23 @@ else
   thread_number=$2
 fi
 
+# Checksums
+check_fb="22d5fd6f608e528c2ab60b77d4592efa5765516b75a75350f564feb85d573415"
+check_wiki="097f218d6fc55d93ac3b5bdafc6f35bb34f027972334e929faea3da8198ea34d"
+check_books="6e690b658db793ca77c1285c42ad681583374f1d11eb7a408e30e16ca0e450da"
+check_osm="22d5fd6f608e528c2ab60b77d4592efa5765516b75a75350f564feb85d573415"
+
+# URLs
+url_fb="https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/EATHF7"
+url_wiki="https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/SVN8PI"
+url_books="https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/5YTV8K"
+url_osm="https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/8FX9BV"
+
 # Check if datasets are there
-if [ ! -e "${data_dir}/wiki_ts_200M_uint64" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/SVN8PI | zstd -d > "${data_dir}/wiki_ts_200M_uint64"
-fi
-if [ ! -e "${data_dir}/osm_cellids_200M_uint64" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/8FX9BV | zstd -d > "${data_dir}/osm_cellids_200M_uint64"
-fi
-if [ ! -e "${data_dir}/fb_200M_uint64" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/EATHF7 | zstd -d > "${data_dir}/fb_200M_uint64"
-fi
-if [ ! -e "${data_dir}/books_200M_uint32" ]; then
-    curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/5YTV8K | zstd -d > "${data_dir}/books_200M_uint32"
-fi
+download_dataset "fb_200M_uint64" $data_dir $url_fb $check_fb
+download_dataset "wiki_ts_200M_uint64" $data_dir $url_wiki $check_wiki
+download_dataset "books_200M_uint32" $data_dir $url_books $check_books
+download_dataset "osm_cellids_200M_uint64" $data_dir $url_osm $check_osm
 
 # compile
 cargo build --release
