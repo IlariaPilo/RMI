@@ -31,7 +31,7 @@ function download_dataset() {
 }
 
 # Check if the user has provided an argument
-if [ $# -e   CHECKSUM=$2;q 0 ]; then
+if [ $# -eq 0 ]; then
     echo -e "\n\033[1;35m\tbash benchmark.sh <data_direcotry> [<thread_number>]\033[0m"
     echo -e "Runs the optimization benchmark. Results are saved in "{time}_optimizer.out" file."
     echo -e "Use <thread_number> to specify the number of threads to be used. If not specified, it will be set to the number of available CPUs.\n"
