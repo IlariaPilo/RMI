@@ -53,7 +53,7 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns" >> $file_name
+echo "Execution time: $execution_time ns\n" >> $file_name
 
 echo "osm_cellids_200M_uint64" >> $file_name
 # Start the timer
@@ -63,7 +63,7 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns" >> $file_name
+echo "Execution time: $execution_time ns\n" >> $file_name
 
 echo "fb_200M_uint64" >> $file_name
 # Start the timer
@@ -73,7 +73,7 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns" >> $file_name
+echo "Execution time: $execution_time ns\n" >> $file_name
 
 echo "books_200M_uint32" >> $file_name
 # Start the timer
@@ -83,7 +83,7 @@ start_time=$(date +%s%N)
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
-echo "Execution time: $execution_time ns" >> $file_name
+echo "Execution time: $execution_time ns\n" >> $file_name
 
 rm optimizer.json
 
