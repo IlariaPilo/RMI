@@ -197,7 +197,7 @@ impl RMIStatistics {
     	// add training time
         let mut table = Table::new("{:<} {:>} {:>} {:>} {:>} {:>}");
         table.add_row(row!("Models", "Branch", "   AvgLg2",
-                           "   MaxLg2", "   Size (b)", "  Build time (ns)"));
+                           "   MaxLg2", "   Size (B)", "  Build time (ns)"));
         for itm in itms {
             table.add_row(row!(itm.models.clone(),
                                format!("{:10}", itm.branching_factor),
