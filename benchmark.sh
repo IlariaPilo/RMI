@@ -11,7 +11,7 @@ fi
 
 # get data directory
 data_dir=$1                          
-data_dir=$(realpath $ref_name)
+data_dir=$(realpath $data_dir)
 
 # Get number of threads
 if [ $# -eq 1 ]; then
