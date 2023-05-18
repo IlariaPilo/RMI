@@ -43,6 +43,7 @@ prefix=$(date +"%Y-%m-%d-%H-%M-%S")
 file_name="${data_dir}/${prefix}_optimizer.out"
 touch $file_name
 
+echo "wiki_ts_200M_uint64"
 echo "-------- wiki_ts_200M_uint64 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
@@ -53,6 +54,7 @@ execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
 echo -e "Execution time: $execution_time ns\n" >> $file_name
 
+echo "osm_cellids_200M_uint64"
 echo "-------- osm_cellids_200M_uint64 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
@@ -63,6 +65,7 @@ execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
 echo -e "Execution time: $execution_time ns\n" >> $file_name
 
+echo "fb_200M_uint64"
 echo "-------- fb_200M_uint64 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
@@ -73,6 +76,7 @@ execution_time=$((end_time - start_time))
 # Print the execution time in nanoseconds
 echo -e "Execution time: $execution_time ns\n" >> $file_name
 
+echo "books_200M_uint32"
 echo "-------- books_200M_uint32 --------" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
