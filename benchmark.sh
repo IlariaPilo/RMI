@@ -46,7 +46,7 @@ touch $file_name
 echo "wiki_ts_200M_uint64" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./targer/release/rmi --threads $thread_number --optimize optimizer.json $"${data_dir}/wiki_ts_200M_uint64" >> $file_name
+./target/release/rmi --threads $thread_number --optimize optimizer.json $"${data_dir}/wiki_ts_200M_uint64" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
@@ -56,7 +56,7 @@ echo "Execution time: $execution_time ns\n" >> $file_name
 echo "osm_cellids_200M_uint64" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./targer/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/osm_cellids_200M_uint64" >> $file_name
+./target/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/osm_cellids_200M_uint64" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
@@ -66,7 +66,7 @@ echo "Execution time: $execution_time ns\n" >> $file_name
 echo "fb_200M_uint64" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./targer/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/fb_200M_uint64" >> $file_name
+./target/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/fb_200M_uint64" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
@@ -76,7 +76,7 @@ echo "Execution time: $execution_time ns\n" >> $file_name
 echo "books_200M_uint32" >> $file_name
 # Start the timer
 start_time=$(date +%s%N)
-./targer/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/books_200M_uint32" >> $file_name
+./target/release/rmi --threads $thread_number --optimize optimizer.json "${data_dir}/books_200M_uint32" >> $file_name
 # Calculate the execution time
 end_time=$(date +%s%N)
 execution_time=$((end_time - start_time))
