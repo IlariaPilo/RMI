@@ -156,7 +156,8 @@ pub struct RMIStatistics {
     pub branching_factor: u64,
     pub average_log2_error: f64,
     pub max_log2_error: f64,
-    pub size: u64
+    pub size: u64,
+    pub build_time: u128
 }
 
 impl RMIStatistics {
