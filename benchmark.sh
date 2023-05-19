@@ -73,7 +73,7 @@ fi
 check_fb="22d5fd6f608e528c2ab60b77d4592efa5765516b75a75350f564feb85d573415"
 check_wiki="097f218d6fc55d93ac3b5bdafc6f35bb34f027972334e929faea3da8198ea34d"
 check_books="6e690b658db793ca77c1285c42ad681583374f1d11eb7a408e30e16ca0e450da"
-check_osm="22d5fd6f608e528c2ab60b77d4592efa5765516b75a75350f564feb85d573415"
+check_osm="1d1f5681cbfcd3774de112533dccc4065b58b74adf09684e9ad47298d1caa9e0"
 
 # URLs
 url_fb="https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/EATHF7"
