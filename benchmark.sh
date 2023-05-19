@@ -10,9 +10,13 @@ function download_dataset() {
    
     # Check if file already exists
     if [ -f "${data_dir}/${FILE}" ]; then
+    echo "file ${FILE} exists, checking hash..."
         # Exists -> check the checksum
         sha_result=$(sha256sum "${data_dir}/${FILE}" | awk '{ print $1 }')
         if [ "${sha_result}" != "${CHECKSUM}" ]; then
+            echo "wrong checksum, retrying..."
+            echo "EXPECTED ${CHECKSUM}"
+            echo "GOT      ${sha_result}"
             rm "${data_dir}/${FILE}"
             curl -L $URL | zstd -d > "${data_dir}/${FILE}"
         fi
