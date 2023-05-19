@@ -34,6 +34,7 @@ function download_dataset() {
         echo "wrong checksum, retrying..."
         echo "EXPECTED ${CHECKSUM}"
         echo "GOT      ${sha_result}"
+        curl -L $URL | zstd -d > "${data_dir}/${FILE}"
         count=$((count+1))
     done
 }
