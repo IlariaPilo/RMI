@@ -14,11 +14,11 @@ function download_dataset() {
         sha_result=$(sha256sum "${data_dir}/${FILE}" | awk '{ print $1 }')
         if [ "${sha_result}" != "${CHECKSUM}" ]; then
             rm "${data_dir}/${FILE}"
-            curl -L $URL | zstd -d > "${data_dir}/${FILE}"
+            wget -O - ${URL} | zstd -d > "${data_dir}/${FILE}"
         fi
     else
         # Download
-        curl -L $URL | zstd -d > "${data_dir}/${FILE}"
+        wget -O - ${URL} | zstd -d > "${data_dir}/${FILE}"
     fi
 
     # Validate (at this point the file should really exist)
@@ -36,7 +36,7 @@ function download_dataset() {
         echo "wrong checksum, retrying..."
         echo "EXPECTED ${CHECKSUM}"
         echo "GOT      ${sha_result}"
-        curl -L $URL | zstd -d > "${data_dir}/${FILE}"
+        wget -O - ${URL} | zstd -d > "${data_dir}/${FILE}"
         count=$((count+1))
     done
     if [ $ok -eq 0 ]; then
