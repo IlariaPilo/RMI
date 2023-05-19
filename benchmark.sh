@@ -23,11 +23,13 @@ function download_dataset() {
 
     # Validate (at this point the file should really exist)
     count=0
+    ok=0
     while [ $count -lt 10 ]
     do
         sha_result=$(sha256sum "${data_dir}/${FILE}" | awk '{ print $1 }')
         if [ "${sha_result}" == "${CHECKSUM}" ]; then
             echo ${FILE} "checksum ok"
+            ok=1
             break
         fi
         rm "${data_dir}/${FILE}"
@@ -37,6 +39,10 @@ function download_dataset() {
         curl -L $URL | zstd -d > "${data_dir}/${FILE}"
         count=$((count+1))
     done
+    if [ $ok -eq 0 ]; then
+        echo "download has failed 10 times. please, run again."
+        exit -1
+    fi
 }
 
 # Check if the user has provided an argument
