@@ -32,7 +32,7 @@ function download_dataset() {
     do
         sha_result=$(sha256sum "${data_dir}/${FILE}" | awk '{ print $1 }')
         if [ "${sha_result}" == "${CHECKSUM}" ]; then
-            echo ${FILE} "checksum ok"
+            echo -e ${FILE} "checksum ok\n"
             ok=1
             break
         fi
@@ -52,7 +52,7 @@ function download_dataset() {
 # Check if the user has provided an argument
 if [ $# -eq 0 ]; then
     echo -e "\n\033[1;35m\tbash benchmark.sh <data_direcotry> [<thread_number>]\033[0m"
-    echo -e "Runs the optimization benchmark. Results are saved in "{time}_optimizer.out" file."
+    echo -e "Runs the optimization benchmark. Results are saved in '<data_direcotry>/{time}_optimizer.out' file."
     echo -e "Use <thread_number> to specify the number of threads to be used. If not specified, it will be set to the number of available CPUs.\n"
     exit
 fi
@@ -94,6 +94,8 @@ cargo build --release
 prefix=$(date +"%Y-%m-%d-%H-%M-%S")
 file_name="${data_dir}/${prefix}_optimizer.out"
 touch $file_name
+
+echo -e "Running with $thread_number threads\n"
 
 echo "wiki_ts_200M_uint64"
 echo "-------- wiki_ts_200M_uint64 --------" >> $file_name
