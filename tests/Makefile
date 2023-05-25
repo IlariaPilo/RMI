@@ -10,9 +10,6 @@ all: results $(ALL_RESULTS)
 results:
 	mkdir results
 
-wiki_ts_200M_uint64:
-	curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/SVN8PI | zstd -d > $@
-
 osm_cellids_200M_uint64:
 	curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/8FX9BV | zstd -d > $@
 
@@ -21,7 +18,7 @@ rmi: $(shell find ../src/) $(shell find ../rmi_lib/src/)
 	cp ../target/release/rmi .
 
 
-results/%_result: results rmi wiki_ts_200M_uint64 osm_cellids_200M_uint64 FORCE
+results/%_result: results rmi osm_cellids_200M_uint64 FORCE
 	@echo "Running test $*"
 	@cd $* && make -s
 	@cp $*/result results/$*_result
