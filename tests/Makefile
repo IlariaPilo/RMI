@@ -1,32 +1,47 @@
+# ----------- thanks @ fbartolic for this template ----------- #
+# Generates a .so library from the data
 
-ALL_TESTS=$(shell ./find_tests.py)
-ALL_RESULTS=$(patsubst %, results/%_result, $(ALL_TESTS))
+CC = g++ # define the C/C++ compiler to use
+CFLAGS = -O3 -Wall -Wall -Wextra -pedantic -fPIC
+# define any directories containing header files other than /usr/include
+INCLUDES = -I$(shell pwd)
+# define the C++ source files
+SRCS = rmi.cpp 
+# define the C/C++ object files 
+# This uses Suffix Replacement within a macro:
+#   $(name:string1=string2)
+#         For each word in 'name' replace 'string1' with 'string2'
+OBJS = $(SRCS:.c=.o)
+# define the shared library name
+TARGET = $(notdir $(shell pwd)).so		# rmi_hg37.so
+# define the symbols file name
+NAMES = $(notdir $(shell pwd)).sym		# rmi_hg37.sym
 
-.PHONY: all
-all: results $(ALL_RESULTS)
-	@echo "============== TEST RESULTS ==============="
-	python3 report.py
+.PHONY: clean
+    
+all: $(NAMES)
+	@echo  Successfully compiled a .so library.
 
-results:
-	mkdir results
+$(NAMES): $(TARGET)
+	@touch $(NAMES)
+	@nm -gD $(TARGET) | grep -oh "\w*load\w*" >> $(NAMES)
+	@nm -gD $(TARGET) | grep -oh "\w*lookup\w*" >> $(NAMES)
+	@nm -gD $(TARGET) | grep -oh "\w*cleanup\w*" >> $(NAMES)
+	@echo "Symbols loaded!"
 
-osm_cellids_200M_uint64:
-	curl -L https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/8FX9BV | zstd -d > $@
+# compile object file to .so shared library
+$(TARGET): $(OBJS)
+	@echo $(TARGET)
+	@echo $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -shared -o $(TARGET) $(OBJS) 
 
-rmi: $(shell find ../src/) $(shell find ../rmi_lib/src/)
-	cd .. && cargo build --release
-	cp ../target/release/rmi .
+# compile source files to object files
 
-
-results/%_result: results rmi osm_cellids_200M_uint64 FORCE
-	@echo "Running test $*"
-	@cd $* && make -s
-	@cp $*/result results/$*_result
-	@echo "Test $* finished."
-
-
-.PHONY: clean FORCE
+# this is a suffix replacement rule for building .o's from .c's
+# it uses automatic variables $<: the name of the prerequisite of
+# the rule(a .c file) and $@: the name of the target of the rule (a .o file) 
+# (see the gnu make manual section about automatic variables)
+.c.o:
+	$(CC) $(CFLAGS) $(INCLUDES) -cpp $<  -o $@
 clean:
-	rm -rf results rmi
-	for test in $(ALL_TESTS) ; do make -C $$test clean ; done
-FORCE: 
+	$(RM) *.o 

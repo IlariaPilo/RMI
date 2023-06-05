@@ -13,9 +13,9 @@ SRCS = rmi.cpp
 #         For each word in 'name' replace 'string1' with 'string2'
 OBJS = $(SRCS:.c=.o)
 # define the shared library name
-TARGET = rmi_$(notdir $(shell pwd)).so		# rmi_shared_library.so
+TARGET = $(notdir $(shell pwd)).so		# rmi_hg37.so
 # define the symbols file name
-NAMES = rmi_$(notdir $(shell pwd)).sym		# rmi_shared_library.sym
+NAMES = $(notdir $(shell pwd)).sym		# rmi_hg37.sym
 
 .PHONY: clean
     
