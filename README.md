@@ -1,5 +1,13 @@
 # RMI
 
+## New Features!
+This fork add the following features:
+- support to create .so libraries, including: building (use the [Makefile](./Makefile)), wrapping (see the [wrapper](./wrapper/) folder) and usage (example [here](./tests/shared_library/)).
+- small change in the Rust code to show the build time in the optimization result table
+
+---
+**_original readme_**
+
 [![Build Status](https://drone.rm.cab/api/badges/learnedsystems/RMI/status.svg)](https://drone.rm.cab/learnedsystems/RMI)
 
 This is a reference implementation of recursive model indexes (RMIs). A prototype RMI was initially described in [The Case for Learned Index Structures](https://arxiv.org/abs/1712.01208) by Kraska et al. in 2017.
