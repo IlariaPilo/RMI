@@ -151,7 +151,7 @@ pub fn load_data(filepath: &str,
             ))),
         DataType::UINT32 =>
             RMIMMap::UINT32(RMITrainingData::new(Box::new(
-                SliceAdapterU32 { data: mmap, length: num_items }
+                SliceAdapterU32 { data: mmap, length: num_items*2 }
             ))),
         DataType::FLOAT64 =>
             RMIMMap::FLOAT64(RMITrainingData::new(Box::new(
