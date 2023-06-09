@@ -52,22 +52,28 @@ struct SliceAdapterU32 {
 impl RMITrainingDataIteratorProvider for SliceAdapterU32 {
     type InpType = u32;
     fn cdf_iter(&self) -> Box<dyn Iterator<Item = (Self::InpType, usize)> + '_> {
-        Box::new((0..self.length).map(move |i| self.get(i).unwrap()))
+        Box::new((0..self.length).filter(|&i| i % 2 == 0).map(move |i| self.get(i).unwrap()))
+        // Only even values are fetched by using `filter` with a modulo condition
     }
-    
+
     fn get(&self, idx: usize) -> Option<(Self::InpType, usize)> {
-        if idx >= self.length { return None; };
+        if idx >= self.length {
+            return None;
+        };
         let mi = (&self.data[8 + idx * 4..8 + (idx + 1) * 4])
             .read_u32::<LittleEndian>().unwrap().into();
         return Some((mi, idx));
     }
-    
+
     fn key_type(&self) -> KeyType {
         KeyType::U32
     }
-    
-    fn len(&self) -> usize { self.length }
+
+    fn len(&self) -> usize {
+        self.length
+    }
 }
+
 
 struct SliceAdapterF64 {
     data: memmap::Mmap,
