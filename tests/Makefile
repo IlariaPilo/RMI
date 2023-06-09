@@ -2,7 +2,7 @@
 # Generates a .so library from the data
 
 CC = g++ # define the C/C++ compiler to use
-CFLAGS = -O3 -Wall -Wall -Wextra -pedantic -fPIC
+CFLAGS = -std=c++17 -O3 -Wall -Wall -Wextra -pedantic -fPIC
 # define any directories containing header files other than /usr/include
 INCLUDES = -I$(shell pwd)
 # define the C++ source files
