@@ -52,15 +52,14 @@ struct SliceAdapterU32 {
 impl RMITrainingDataIteratorProvider for SliceAdapterU32 {
     type InpType = u32;
     fn cdf_iter(&self) -> Box<dyn Iterator<Item = (Self::InpType, usize)> + '_> {
-        Box::new((0..self.length).filter(|&i| i % 2 == 0).map(move |i| self.get(i).unwrap()))
-        // Only even values are fetched by using `filter` with a modulo condition
+        Box::new((0..self.length).map(move |i| self.get(i).unwrap()))
     }
 
     fn get(&self, idx: usize) -> Option<(Self::InpType, usize)> {
         if idx >= self.length {
             return None;
         };
-        let mi = (&self.data[8 + idx * 4..8 + (idx + 1) * 4])
+        let mi = (&self.data[8 + idx*2 * 4..8 + (idx*2 + 1) * 4])
             .read_u32::<LittleEndian>().unwrap().into();
         return Some((mi, idx));
     }
@@ -151,7 +150,7 @@ pub fn load_data(filepath: &str,
             ))),
         DataType::UINT32 =>
             RMIMMap::UINT32(RMITrainingData::new(Box::new(
-                SliceAdapterU32 { data: mmap, length: num_items*2 }
+                SliceAdapterU32 { data: mmap, length: num_items }
             ))),
         DataType::FLOAT64 =>
             RMIMMap::FLOAT64(RMITrainingData::new(Box::new(
