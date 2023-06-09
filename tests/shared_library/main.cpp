@@ -8,6 +8,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     const char* path_to_library = argv[1];
-    RMI rmi(path_to_library);
+    RMI rmi;
+    rmi.init(path_to_library);
     return 0;
 }
