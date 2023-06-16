@@ -522,7 +522,7 @@ fn generate_code<T: Write>(
                 lp.to_decl(data_output)?; // write to source code
                 
                 read_code.push("  {".to_string());
-                read_code.push(format!("    std::ifstream infile(std::filesystem::path(dataPath) / \"{ns}_{fn}\", std::ios::in | std::ios::binary);",
+                read_code.push(format!("    std::ifstream infile(std::experimental::filesystem::path(dataPath) / \"{ns}_{fn}\", std::ios::in | std::ios::binary);",
                                        ns=namespace, fn=array_name!(idx)));
                 read_code.push("    if (!infile.good()) return false;".to_string());
                 if lp.requires_malloc() {
@@ -575,7 +575,7 @@ fn generate_code<T: Write>(
     writeln!(code_output, "#include <math.h>")?;
     writeln!(code_output, "#include <cmath>")?;
     writeln!(code_output, "#include <fstream>")?;
-    writeln!(code_output, "#include <filesystem>")?;
+    writeln!(code_output, "#include <experimental/filesystem>")?;
     writeln!(code_output, "#include <iostream>")?;
     if rmi.cache_fix.is_some() {
         writeln!(code_output, "#include <algorithm>")?;

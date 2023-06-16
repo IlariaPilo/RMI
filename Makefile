@@ -45,3 +45,5 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -cpp $<  -o $@
 clean:
 	$(RM) *.o 
+	$(RM) *.sym 
+	$(RM) *.so 
