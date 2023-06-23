@@ -28,12 +28,13 @@ std::string get_parent_directory(const std::string& path) {
  * @param library_prefix The prefix of the library we want to use, that is, the path and the name WITHOUT the .so extension.
  * @return A wrapper object.
  */
-void RMI::init(const char *library_prefix) {                  // ./data/hg37_index/hg37_index
+void RMI::init(const char *library_prefix) {            // ./data/hg37_index/hg37_index
     auto start = std::chrono::system_clock::now();
     auto lib_str = std::string(library_prefix);
     std::string library_name = lib_str + ".so";         // ./data/hg37_index/hg37_index.so
     std::string library_sym = lib_str + ".sym";         // ./data/hg37_index/hg37_index.sym
 
+    std::cerr << "Loading library " << library_name << std::endl;
     // first, open the library
     library_handle = dlopen(library_name.c_str(), RTLD_LAZY);
     assert(library_handle);
@@ -58,7 +59,7 @@ void RMI::init(const char *library_prefix) {                  // ./data/hg37_ind
     std::string param_path = get_parent_directory(lib_str) + "/rmi_data";
     int done = rmi_load(param_path.c_str());
     assert(done);
-
+    
     // print elapsed time
     auto end = std::chrono::system_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -80,5 +81,6 @@ RMI::~RMI() {
 
 // lookup -> TODO, up to now it's a wrapper
 uint64_t RMI::lookup(uint64_t key, size_t* err) {
+    assert(is_init);
     return rmi_lookup(key, err);
 }
