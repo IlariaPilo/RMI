@@ -1,9 +1,13 @@
 # RMI
 
 ## New Features!
-This fork add the following features:
+This fork adds the following features:
 - support to create .so libraries, including: building (use the [Makefile](./Makefile)), wrapping (see the [wrapper](./wrapper/) folder) and usage (example [here](./tests/shared_library/)).
-- small change in the Rust code to show the build time in the optimization result table
+- remove \<filesystem\> library requirement.
+- small change in the Rust code to show the build time in the optimization result table.
+
+This branch (accel-align) adds the following feature:
+- support for (key,value) structured files, where the value is ignored when training the index.
 
 ---
 **_original readme_**
