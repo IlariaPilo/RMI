@@ -31,7 +31,7 @@ impl RMITrainingDataIteratorProvider for SliceAdapterU64 {
     
     fn get(&self, idx: usize) -> Option<(Self::InpType, usize)> {
         if idx >= self.length { return None; };
-        let mi = u64::from_le_bytes((&self.data[8 + idx * 8..8 + (idx + 1) * 8])
+        let mi = u64::from_le_bytes((&self.data[8 + idx*12..16 + idx*12])
                                     .try_into().unwrap());
         return Some((mi.into(), idx));
     }
