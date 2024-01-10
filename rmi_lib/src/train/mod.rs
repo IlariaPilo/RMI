@@ -160,7 +160,7 @@ pub fn train_bounded(data: &RMITrainingData<u64>,
     let start_time = SystemTime::now();
     // first, transform our data into error-bounded spline points
     let spline = cache_fix(data, line_size);
-    std::mem::drop(data);
+    // std::mem::drop(data);
 
     // reindex the spline points so we can build an RMI on top
     let reindexed_splines: Vec<(u64, usize)> = spline.iter()
